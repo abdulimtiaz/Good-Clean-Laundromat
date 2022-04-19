@@ -36,6 +36,11 @@ JWT_SECRET=anything
 ```
 
 5. Run the server
+```
+npm run start
+```
+
+During development, nodemon can be used to restart the server upon any modifications to files:
 
 ``` 
 npm run dev
