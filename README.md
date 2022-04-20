@@ -45,3 +45,36 @@ During development, nodemon can be used to restart the server upon any modificat
 ``` 
 npm run dev
 ```
+
+## Viewing contents of database
+
+1. Run `psql -U postgres` in a terminal/cmd window 
+
+    If this does not work properly, add the Postgres binaries to your PATH. Otherwise, skip to step 2.
+
+    In Windows:
+
+    1. Search `environment variables` and click `Edit the system environment variables`
+
+    2. Click `Environment Variables` at the bottom of the window
+
+    3. Under the `System Variables` section, find the `Path` variable and click Edit
+
+    4. Click New and add the following directories separately: 
+
+    ```
+    C:\Program Files\PostgreSQL\14\bin
+    C:\Program Files\PostgreSQL\14\lib
+    ```
+
+    5. Click OK three times to save the new settings
+
+
+2. Enter the password you created during Postgres setup
+
+3. Enter SQL queries as desired. For example:
+
+```postgres
+SELECT * FROM User_;
+```
+
