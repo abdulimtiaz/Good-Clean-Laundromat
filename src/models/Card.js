@@ -1,7 +1,7 @@
 const Card = 
     `CREATE TABLE IF NOT EXISTS Card_ (
         id SERIAL PRIMARY KEY,
-        description TEXT,
+        message TEXT,
         creator CITEXT,
         FOREIGN KEY (creator) REFERENCES User_(email)
     )`;
