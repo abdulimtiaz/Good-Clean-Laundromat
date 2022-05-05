@@ -7,3 +7,8 @@ const User =
     )`;
 
 module.exports = User;
+
+/*
+    * This is the SQL query to create the User table for the database
+    * type UserType is defined in UserType.js
+*/
