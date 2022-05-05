@@ -7,5 +7,6 @@ module.exports = {
     CITEXT,
     UserType,
     User,
+    CardType,
     Card
 }

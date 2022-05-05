@@ -3,6 +3,7 @@ const Card =
         id SERIAL PRIMARY KEY,
         message TEXT,
         creator CITEXT,
+        type CardType,
         FOREIGN KEY (creator) REFERENCES User_(email)
     )`;
 
