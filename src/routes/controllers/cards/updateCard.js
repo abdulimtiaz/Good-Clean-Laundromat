@@ -3,7 +3,8 @@ const validateBodyContent = require('../../../helpers/validateBodyContent');
 
 const updateCard = async (req, res) => {
     try {
-        const { id, newMessage } = req.body;
+        const { id } = req.params;
+        const { newMessage } = req.body;
 
         const required = {
             id,

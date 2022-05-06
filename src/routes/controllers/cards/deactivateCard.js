@@ -3,13 +3,9 @@ const validateBodyContent = require('../../../helpers/validateBodyContent');
 
 const deactivateCard = async (req, res) => {
     try {
-        const { id} = req.body;
+        const { id } = req.params;
 
-        const required = {
-            id
-        };
-
-        validateBodyContent(required, res);
+        // check if 
 
         await pool.query(
             `UPDATE Card_ 
