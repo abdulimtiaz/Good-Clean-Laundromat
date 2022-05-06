@@ -5,8 +5,6 @@ const deactivateCard = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // check if 
-
         await pool.query(
             `UPDATE Card_ 
             SET activeStatus = False
