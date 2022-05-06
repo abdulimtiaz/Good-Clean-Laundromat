@@ -3,20 +3,21 @@ const validateBodyContent = require('../../../helpers/validateBodyContent');
 
 const createCard = async (req, res) => {
     try {
-        const { creator, message } = req.body;
+        const { email } = req;
+        const { message, type } = req.body;
 
         const required = {
-            creator,
-            message
+            message,
+            type
         };
 
         validateBodyContent(required, res);
 
         await pool.query(
             `INSERT INTO Card_ 
-            (message, creator) 
+            (message, creator, type) 
             VALUES ($1, $2)`,
-            [message, creator]
+            [message, email, type]
         );
 
         return res.status(201).json({ msg: 'Card created successfully' });
