@@ -4,6 +4,7 @@ const Card =
         message TEXT,
         creator CITEXT,
         type CardType,
+        activeStatus BOOLEAN DEFAULT True,
         FOREIGN KEY (creator) REFERENCES User_(email)
     )`;
 
