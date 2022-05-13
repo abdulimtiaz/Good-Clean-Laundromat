@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import '../stylesheets/p7.css'
+import '../stylesheets/SubmitProblem.css'
 
 const SubmitProblem = () => {
     return (
