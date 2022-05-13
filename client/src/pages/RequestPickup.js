@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import '../stylesheets/p8.css'
+import '../stylesheets/RequestPickup.css'
 
 const RequestPickup = () => {
     return (
