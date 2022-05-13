@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import '../stylesheets/p5.css'
+import '../stylesheets/EmployeeHome.css'
 
 const EmployeeHome = () => {
     return (
