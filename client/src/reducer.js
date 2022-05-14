@@ -1,9 +1,11 @@
 export const initialState = {
-	user: true
+	user: true,
+	employee: false
 };
 
 export const actionTypes = {
-	SET_USER: 'SET_USER'
+	SET_USER: 'SET_USER',
+	SET_EMPLOYEE: 'SET_EMPLOYEE'
 };
 
 const reducer = (state, action) => {
@@ -13,6 +15,11 @@ const reducer = (state, action) => {
 			return {
 				...state,
 				user: action.user
+			};
+		case actionTypes.SET_EMPLOYEE:
+			return {
+				...state,
+				employee: action.employee
 			};
 		default:
 			return state;

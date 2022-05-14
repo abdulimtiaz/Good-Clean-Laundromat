@@ -1,8 +1,11 @@
 import React from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useStateValue } from '../StateProvider';
 
 const NavbarMain = () => {
+	const [ { user }, dispatch ] = useStateValue();
+
 	return (
 		<div>
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -21,12 +24,17 @@ const NavbarMain = () => {
 								<NavDropdown.Item href="/SubmitProblem">Submit Problem</NavDropdown.Item>
 							</NavDropdown>
 						</Nav>
-						<Nav>
-							<Nav.Link href="#deets">More deets</Nav.Link>
-							<Nav.Link eventKey={2} href="#memes">
-								Dank memes
-							</Nav.Link>
-						</Nav>
+
+						{!user ? (
+							<Nav>
+								<Nav.Link href="/Login">Sign In</Nav.Link>
+								<Nav.Link href="/Signup">Sign Up</Nav.Link>
+							</Nav>
+						) : (
+							<Nav>
+								<Nav.Link href="#deets">Log Out</Nav.Link>
+							</Nav>
+						)}
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>
