@@ -1,9 +1,50 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 import '../stylesheets/Signup.css';
+import { Button, Form, FormControl } from 'react-bootstrap';
 
 const Signup = () => {
-	const handleSubmit = (e) => {
+	// const [ count, setCount ] = useState(0);
+
+	const firstNameInput = useRef(null);
+	const lastNameInput = useRef(null);
+	const phoneInput = useRef(null);
+	const addressInput = useRef(null);
+	const emailInput = useRef(null);
+	const usernameInput = useRef(null);
+	const passwordInput = useRef(null);
+	const accountTypeInput = useRef(null);
+	const accessCodeInput = useRef(null);
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		/*
+			 email,
+            password,
+            phoneNumber,
+            type
+			const { email, password, phoneNumber, type, accessCode } = req.body;
+
+		*/
+		console.log(firstNameInput.current.value);
+		try {
+			const body = {
+				email: emailInput.current.value,
+				password: passwordInput.current.value,
+				phoneNumber: phoneInput.current.value,
+				type: accountTypeInput.current.value,
+				accessCode: accessCodeInput.current.value
+			};
+			console.log(body);
+			const response = await fetch('http://localhost:5000/api/auth/signup', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(body)
+			});
+
+			window.location = '/';
+		} catch (err) {
+			console.error(err.message);
+		}
 	};
 	return (
 		<div>
@@ -12,38 +53,58 @@ const Signup = () => {
 				Customer Signup form<br />
 			</p>
 			<div className="signup-form">
-				<form id="form" onSubmit={handleSubmit}>
-					<label>First Name:</label>
-					<input type="text" id="firstname" class="box" />
-					<br />
+				<Form onSubmit={handleSubmit}>
+					<Form.Group className="mb-3" controlId="formBasicLastName">
+						<Form.Label>First Name</Form.Label>
+						<Form.Control type="firstName" placeholder="John..." ref={firstNameInput} />
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicFirstName">
+						<Form.Label>Last Name</Form.Label>
+						<Form.Control type="lastName" placeholder="Doe..." ref={lastNameInput} />
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicPhone">
+						<Form.Label>Phone #</Form.Label>
+						<Form.Control type="phone" placeholder="347-123-4567" ref={phoneInput} />
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicAddress">
+						<Form.Label>Address</Form.Label>
+						<Form.Control type="address" placeholder="8 Clarkson St, West Village, NY" ref={addressInput} />
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Label>Email address</Form.Label>
+						<Form.Control type="email" placeholder="Enter email" ref={emailInput} />
+						<Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
+					</Form.Group>
 
-					<label>Last Name:</label>
-					<input type="text" id="lastname" class="box" />
-					<br />
+					<Form.Group className="mb-3" controlId="formBasicLastUsername">
+						<Form.Label>User Name</Form.Label>
+						<Form.Control type="username" placeholder="JohnDoe123" ref={usernameInput} />
+					</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicPassword">
+						<Form.Label>Password</Form.Label>
+						<Form.Control type="password" placeholder="Password" ref={passwordInput} />
+					</Form.Group>
+					<Form.Group>
+						<Form.Label>Account Type</Form.Label>
 
-					<label>Phone:</label>
-					<input type="text" id="phone" class="box" />
-					<br />
+						<Form.Select aria-label="Default select example" ref={accountTypeInput}>
+							<option>Open this select menu</option>
+							<option value="Customer">Customer</option>
+							<option value="Employee">Employee</option>
+						</Form.Select>
+					</Form.Group>
 
-					<label>Address:</label>
-					<input type="text" id="address" class="box" />
+					<div>
+						<Form.Group className="mb-3" controlId="formBasicAccessCode">
+							<Form.Label>Access Code</Form.Label>
+							<Form.Control type="accesscode" placeholder="*****" ref={accessCodeInput} />
+						</Form.Group>
+					</div>
 
-					<label>Email address:</label>
-					<input type="text" id="email" class="box" />
-					<br />
-
-					<label>User name:</label>
-					<input type="text" id="username" class="box" />
-					<br />
-
-					<label>Password:</label>
-					<input type="text" id="password" class="box" />
-					<br />
-					<a href="p1.html" type="submit">
-						<button id="submit">Submit</button>
-						<br />
-					</a>
-				</form>
+					<Button variant="primary" type="submit">
+						Submit
+					</Button>
+				</Form>
 			</div>
 		</div>
 	);

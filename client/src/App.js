@@ -9,8 +9,9 @@ import Login from './pages/Login';
 import EmployeeHome from './pages/EmployeeHome';
 import Signup from './pages/Signup';
 import SubmitProblem from './pages/SubmitProblem';
+import CustomerHome from './pages/CustomerHome';
 function App() {
-	const [ { user }, dispatch ] = useStateValue();
+	const [ { user, employee }, dispatch ] = useStateValue();
 
 	return (
 		<div className="App">
@@ -32,9 +33,6 @@ function App() {
 			) : (
 				<Router>
 					<Switch>
-						<Route path="/Employee/Homepage">
-							<EmployeeHome />
-						</Route>
 						<Route path="/Login">
 							<Login />
 						</Route>
@@ -44,9 +42,7 @@ function App() {
 						<Route path="/SubmitProblem">
 							<SubmitProblem />
 						</Route>
-						<Route path="/">
-							<Home />
-						</Route>
+						<Route path="/">{!employee ? <CustomerHome /> : <EmployeeHome />}</Route>
 					</Switch>
 				</Router>
 			)}

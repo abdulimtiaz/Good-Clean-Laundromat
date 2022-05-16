@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import '../stylesheets/Home.css';
+import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 	return (
@@ -14,13 +16,17 @@ const Home = () => {
 			<br />
 
 			<div id="links">
-				<a id="h1" href="/Login">
-					Login<br />
-				</a>
+				<div className="d-grid gap-2">
+					<Button href="/Login" variant="primary" size="lg">
+						Login
+					</Button>
+
+					<Button href="/Signup" variant="secondary" size="lg">
+						Customer Signup<br />
+					</Button>
+				</div>
+
 				{/* <a id = "h2" href = "/">Customer login<br/></a> */}
-				<a id="h3" href="/Signup">
-					Customer Signup<br />
-				</a>
 			</div>
 			<br />
 			<br />
