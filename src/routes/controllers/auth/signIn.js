@@ -19,7 +19,7 @@ const signIn = async (req, res) => {
         }
     
         const { rowCount, rows } = await pool.query(
-            `SELECT email, password
+            `SELECT email, password, type
                 FROM User_
                 WHERE email = $1`,
                 [email]
@@ -30,13 +30,13 @@ const signIn = async (req, res) => {
         }
     
         // verify matching password
-        const { password: hashedPassword } = rows[0];
+        const { password: hashedPassword, type } = rows[0];
         const match = await bcrypt.compare(password, hashedPassword);
         if (!match)
             return res.status(400).json({ msg: 'Incorrect password' });
     
         const token = jwt.sign({ email }, process.env.JWT_SECRET);
-        return res.status(201).json({ token, email, msg: 'Login successful' });
+        return res.status(201).json({ token, type, email, msg: 'Login successful' });
     } catch (err) {
         console.log(`Error in ${__filename}:\n`, err);
         return res.status(500).json({ msg: 'Internal server error' });
