@@ -13,7 +13,7 @@ const EmployeeHome = () => {
 
 			<div id="p2">
 				Employee name
-				<input type="text" id="employeename" class="order" placeholder="Lily" readonly />
+				<input type="text" id="employeename" class="order" placeholder="Lily" readOnly />
 				<br />
 				<br />
 			</div>

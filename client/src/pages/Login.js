@@ -1,122 +1,88 @@
-import React, { Component } from 'react';
-import '../stylesheets/Login.css';
-import FormInputs from './FormInputs';
-import { Redirect } from 'react-router-dom';
-// import { Redirect } from 'react-router';
-import Joi from 'joi-browser';
+import React, { Fragment, useRef, useState } from 'react';
+// import '../stylesheets/Signup.css';
+import { Button, Form, FormControl } from 'react-bootstrap';
 
-class Login extends Component {
-	constructor() {
-		super();
-		this.state = {
-			username: '',
-			password: '',
-			errors: {},
-			submitSuccessfully: false,
-			redirect: false
-		};
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.validate = this.validate.bind(this);
-		this.validateOnChange = this.validateOnChange.bind(this);
-	}
+const axios = require('axios');
 
-	schema = Joi.object().keys({
-		username: Joi.string().label('Username').required(),
-		password: Joi.string().required().label('Password')
-	});
+const Login = () => {
+	// const [ count, setCount ] = useState(0);
 
-	validate() {
-		const result = Joi.validate({ username: this.state.username, password: this.state.password }, this.schema, {
-			abortEarly: false
-		});
+	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+	const [ userState, setUserState ] = useState();
+	const [ userType, setUserType ] = useState();
 
-		if (result.error === null) return;
+	const emailInput = useRef(null);
+	const passwordInput = useRef(null);
 
-		const errors = {};
-
-		for (let item of result.error.details) {
-			errors[item.path[0]] = item.message;
-		}
-		return errors;
-	}
-
-	handleSubmit(e) {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		/*
+			 email,
+            password,
+            phoneNumber,
+            type
+			const { email, password, phoneNumber, type, accessCode } = req.body;
 
-		const errors = this.validate();
+		*/
+		// console.log(firstNameInput.current.value);
+		try {
+			const body = {
+				email: emailInput.current.value,
+				password: passwordInput.current.value
+			};
+			const response = await axios.post('https://good-clean-laundromat.herokuapp.com/api/auth/signin', body);
+			setUserState(response.data.token);
+			setUserType(response.data.type);
 
-		this.setState({ errors: errors || {} });
+			// console.log(userState);
+			// store the user in localStorage
+			localStorage.setItem('user', response.data.token);
+			localStorage.setItem('type', response.data.type);
 
-		if (errors) return;
+			console.log(response.data.token);
+			// console.log(user, employee);
 
-		console.log(errors);
-
-		console.log('Form Submitted.');
-
-		this.setState({ submitSuccessfully: true });
-		this.setState({ redirect: true });
-	}
-
-	validateOnChange(currentTarget) {
-		const obj = { [currentTarget.name]: currentTarget.value };
-
-		const res = this.schema._inner.children.filter((item) => item.key === currentTarget.name);
-
-		console.log(this.schema[currentTarget.name]);
-
-		const schema = { [currentTarget.name]: res[0].schema };
-
-		const { error } = Joi.validate({ obj }, schema);
-
-		return error ? error.details[0].message : null;
-	}
-
-	handleInputChange({ currentTarget }) {
-		const errors = { ...this.state.errors };
-
-		const errorMessage = this.validateOnChange(currentTarget);
-
-		if (errorMessage) errors[currentTarget.name] = errorMessage;
-		else delete errors[currentTarget.name];
-
-		this.setState({ [currentTarget.name]: currentTarget.value, errors });
-	}
-	render() {
-		return (
-			<div>
-				{this.state.redirect ? <Redirect push to="/employee/homepage" /> : null}
-
-				<div className="heading">
-					<h1> Laundromat</h1>
-					<h1>Employee Login</h1>
-				</div>
-				<div className="login_form">
-					<form onSubmit={this.handleSubmit}>
-						<FormInputs
-							onChange={this.handleInputChange}
-							errors={this.state.errors}
-							value={this.state.username}
-							htmlForId="username"
-							type="text"
-							label="Username"
+			window.location = '/';
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+	return (
+		<div>
+			<p id="p1">
+				Local Laundromat<br />
+				Customer Signup form<br />
+			</p>
+			<div className="signup-form">
+				<Form onSubmit={handleSubmit}>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Label>Email address</Form.Label>
+						<Form.Control
+							type="email"
+							placeholder="Enter email"
+							ref={emailInput}
+							onChange={({ target }) => setEmail(target.value)}
 						/>
-						<FormInputs
-							onChange={this.handleInputChange}
-							errors={this.state.errors}
-							value={this.state.password}
-							htmlForId="password"
+					</Form.Group>
+
+					<Form.Group className="mb-3" controlId="formBasicPassword">
+						<Form.Label>Password</Form.Label>
+						<Form.Control
 							type="password"
-							label="Password"
+							placeholder="Password"
+							ref={passwordInput}
+							onChange={({ target }) => setPassword(target.value)}
 						/>
-						<button disabled={this.validate()} className="btn btn-primary">
-							Login
-						</button>
-					</form>
-				</div>
+					</Form.Group>
+
+					<Button variant="primary" type="submit">
+						Submit
+					</Button>
+				</Form>
 			</div>
-		);
-	}
-}
+		</div>
+	);
+};
 
 export default Login;

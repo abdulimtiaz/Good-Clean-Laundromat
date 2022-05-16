@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //components
-import { useStateValue } from './StateProvider';
 import NavbarMain from './pages/NavbarMain';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -10,13 +9,35 @@ import EmployeeHome from './pages/EmployeeHome';
 import Signup from './pages/Signup';
 import SubmitProblem from './pages/SubmitProblem';
 import CustomerHome from './pages/CustomerHome';
+
 function App() {
-	const [ { user, employee }, dispatch ] = useStateValue();
+	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+	const [ userState, setUserState ] = useState();
+	const [ userType, setUserType ] = useState();
+	useEffect(
+		() => {
+			const loggedInUser = localStorage.getItem('user');
+			const loggedInUserType = localStorage.getItem('type');
+
+			if (loggedInUser) {
+				// console.log('Logged in');
+				// console.log(loggedInUser);
+				const foundUser = loggedInUser;
+				const foundUserType = loggedInUserType;
+
+				setUserState(foundUser);
+				setUserType(foundUserType);
+				console.log(userType);
+			}
+		},
+		[ userType, userState ]
+	);
 
 	return (
 		<div className="App">
 			<NavbarMain />
-			{!user ? (
+			{!userState ? (
 				<Router>
 					<Switch>
 						<Route path="/Login">
@@ -33,16 +54,16 @@ function App() {
 			) : (
 				<Router>
 					<Switch>
-						<Route path="/Login">
+						{/* <Route path="/Login">
 							<Login />
-						</Route>
-						<Route path="/Signup">
+						</Route> */}
+						{/* <Route path="/Signup">
 							<Signup />
-						</Route>
+						</Route> */}
 						<Route path="/SubmitProblem">
 							<SubmitProblem />
 						</Route>
-						<Route path="/">{!employee ? <CustomerHome /> : <EmployeeHome />}</Route>
+						<Route path="/">{userType == 'Customer' ? <CustomerHome /> : <EmployeeHome />}</Route>
 					</Switch>
 				</Router>
 			)}

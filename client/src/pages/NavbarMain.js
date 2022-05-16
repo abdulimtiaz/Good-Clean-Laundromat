@@ -1,26 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useStateValue } from '../StateProvider';
-import { actionTypes } from '../reducer';
+import { Link, NavLink } from 'react-router-dom';
 
 const NavbarMain = () => {
-	const [ { user }, dispatch ] = useStateValue();
+	const [ userState, setUserState ] = useState();
+
+	useEffect(() => {
+		const loggedInUser = localStorage.getItem('user');
+		// const loggedInUserType = localStorage.getItem('type');
+
+		if (loggedInUser) {
+			// console.log('Logged in');
+			// console.log(loggedInUser);
+			const foundUser = loggedInUser;
+			// const foundUserType = JSON.parse(loggedInUserType);
+
+			setUserState(foundUser);
+			// setUserType(foundUserType);
+		}
+	}, []);
 	const logout = () => {
-		dispatch({
-			type: actionTypes.SET_USER,
-			user: null
-		});
+		localStorage.clear();
 	};
 	return (
 		<div>
 			<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
 				<Container>
-					<Navbar.Brand href="/">Good Clean Laundromat</Navbar.Brand>
+					<Navbar.Brand>Good Clean Laundromat</Navbar.Brand>
+
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="me-auto">
-							<Nav.Link href="/home">Home Page</Nav.Link>
+							<Nav.Link to="/">Home Page</Nav.Link>
 							{/* <Nav.Link href="#pricing">Sign</Nav.Link> */}
 							<NavDropdown title="Dropdown" id="collasible-nav-dropdown">
 								{/* <NavDropdown.Item href="/Login"></NavDropdown.Item> */}
@@ -33,7 +44,7 @@ const NavbarMain = () => {
 							</NavDropdown>
 						</Nav>
 
-						{!user ? (
+						{!userState ? (
 							<Nav>
 								<Nav.Link href="/Login">Sign In</Nav.Link>
 								<Nav.Link href="/Signup">Sign Up</Nav.Link>

@@ -1,9 +1,14 @@
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useRef, useState } from 'react';
 import '../stylesheets/Signup.css';
 import { Button, Form, FormControl } from 'react-bootstrap';
+import { useStateValue } from '../StateProvider';
+import { actionTypes } from '../reducer';
+
+const axios = require('axios');
 
 const Signup = () => {
 	// const [ count, setCount ] = useState(0);
+	const [ { user, employee }, dispatch ] = useStateValue();
 
 	const firstNameInput = useRef(null);
 	const lastNameInput = useRef(null);
@@ -15,6 +20,10 @@ const Signup = () => {
 	const accountTypeInput = useRef(null);
 	const accessCodeInput = useRef(null);
 
+	const [ email, setEmail ] = useState('');
+	const [ password, setPassword ] = useState('');
+	const [ userState, setUserState ] = useState();
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		/*
@@ -25,7 +34,7 @@ const Signup = () => {
 			const { email, password, phoneNumber, type, accessCode } = req.body;
 
 		*/
-		console.log(firstNameInput.current.value);
+		// console.log(firstNameInput.current.value);
 		try {
 			const body = {
 				email: emailInput.current.value,
@@ -34,13 +43,12 @@ const Signup = () => {
 				type: accountTypeInput.current.value,
 				accessCode: accessCodeInput.current.value
 			};
-			console.log(body);
-			const response = await fetch('http://localhost:5000/api/auth/signup', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(body)
-			});
+			const response = await axios.post('https://good-clean-laundromat.herokuapp.com/api/auth/signup', body);
 
+			setUserState(response.data);
+			localStorage.setItem('user', response.data);
+			console.log('it wokred ');
+			console.log(response.data);
 			window.location = '/';
 		} catch (err) {
 			console.error(err.message);
@@ -72,7 +80,12 @@ const Signup = () => {
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="formBasicEmail">
 						<Form.Label>Email address</Form.Label>
-						<Form.Control type="email" placeholder="Enter email" ref={emailInput} />
+						<Form.Control
+							type="email"
+							placeholder="Enter email"
+							ref={emailInput}
+							onChange={({ target }) => setEmail(target.value)}
+						/>
 						<Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
 					</Form.Group>
 
@@ -82,7 +95,12 @@ const Signup = () => {
 					</Form.Group>
 					<Form.Group className="mb-3" controlId="formBasicPassword">
 						<Form.Label>Password</Form.Label>
-						<Form.Control type="password" placeholder="Password" ref={passwordInput} />
+						<Form.Control
+							type="password"
+							placeholder="Password"
+							ref={passwordInput}
+							onChange={({ target }) => setPassword(target.value)}
+						/>
 					</Form.Group>
 					<Form.Group>
 						<Form.Label>Account Type</Form.Label>
