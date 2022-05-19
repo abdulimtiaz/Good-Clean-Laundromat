@@ -8,8 +8,10 @@ const authenticateToken = require('./middlewares/authenticateToken');
 const verifyEmployee = require('./middlewares/verifyEmployee');
 const verifyCreator = require('./middlewares/verifyCreator');
 const getCard = require('./controllers/cards/getCard');
+const getAllCards = require('./controllers/cards/getAllCards');
 
 router.post('/', authenticateToken, createCard);
+router.get('/getAllCards', getAllCards);
 router.get('/:id', getCard);
 router.put('/:id', authenticateToken, verifyCreator, updateCard);
 router.delete('/:id', authenticateToken, verifyEmployee, deactivateCard);

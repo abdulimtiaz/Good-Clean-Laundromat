@@ -16,7 +16,7 @@ const createCard = async (req, res) => {
         await pool.query(
             `INSERT INTO Card_ 
             (message, creator, type) 
-            VALUES ($1, $2)`,
+            VALUES ($1, $2, $3)`,
             [message, email, type]
         );
 
