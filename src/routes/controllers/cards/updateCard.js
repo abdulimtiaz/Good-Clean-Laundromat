@@ -11,7 +11,10 @@ const updateCard = async (req, res) => {
             newMessage
         };
 
-        validateBodyContent(required, res);
+        const { statusCode } = validateBodyContent(required, res) || {};
+        if (statusCode === 400) {
+            return;
+        }
 
         await pool.query(
             `UPDATE Card_ 

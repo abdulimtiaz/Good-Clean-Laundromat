@@ -11,7 +11,10 @@ const createCard = async (req, res) => {
             type
         };
 
-        validateBodyContent(required, res);
+        const { statusCode } = validateBodyContent(required, res) || {};
+        if (statusCode === 400) {
+            return;
+        }
 
         await pool.query(
             `INSERT INTO Card_ 
