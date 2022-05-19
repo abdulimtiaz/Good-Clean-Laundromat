@@ -8,11 +8,12 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../../../.env') });
 
 const signUp = async (req, res) => {
     try {
-        const { email, password, phoneNumber, type, accessCode } = req.body;
+        const { email, password, name, phoneNumber, type, accessCode } = req.body;
 
         const required = {
             email,
             password,
+            name,
             phoneNumber,
             type
         };
@@ -39,9 +40,9 @@ const signUp = async (req, res) => {
         if (type === 'Customer') {
             await pool.query(
                 `INSERT INTO User_ 
-                (email, password, phone_number) 
-                VALUES ($1, $2, $3)`,
-                [email, hashedPassword, phoneNumber]
+                (email, password, name, phone_number) 
+                VALUES ($1, $2, $3, $4)`,
+                [email, hashedPassword, name, phoneNumber]
             );
 
         } else {
@@ -55,9 +56,9 @@ const signUp = async (req, res) => {
 
             await pool.query(
                 `INSERT INTO User_ 
-                (email, password, phone_number, type) 
-                VALUES ($1, $2, $3, $4)`,
-                [email, hashedPassword, phoneNumber, type]
+                (email, password, name, phone_number, type) 
+                VALUES ($1, $2, $3, $4, $5)`,
+                [email, hashedPassword, name, phoneNumber, type]
             );
         }
 
