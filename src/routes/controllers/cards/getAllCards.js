@@ -3,7 +3,7 @@ const { pool } = require('../../../utils/db');
 const getAllCards = async (req, res) => {
     try {
         let cards;
-        if (req.query.active == 'true') {
+        if (req.query.active === 'true') {
             cards = await pool.query(`SELECT * FROM Card_ WHERE activeStatus = TRUE`);
         } else {
             cards = await pool.query(`SELECT * FROM Card_`);
