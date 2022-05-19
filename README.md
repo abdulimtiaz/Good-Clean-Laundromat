@@ -1,6 +1,8 @@
-# Good Clean Laundromat
+# Good Clean Laundromat (backend)
 
 A website created for CSC 473 (Web Design)
+
+[Frontend repository](https://github.com/abdulimtiaz/good-clean-laundromat-frontend)
 
 ## Quick Setup
 
