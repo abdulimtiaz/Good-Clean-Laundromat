@@ -4,6 +4,8 @@ A website created for CSC 473 (Web Design)
 
 [Frontend repository](https://github.com/abdulimtiaz/good-clean-laundromat-frontend)
 
+Note: The access code for the hosted version is currently `apple`.
+
 ## Quick Setup
 
 1. Install the the following technologies: 
